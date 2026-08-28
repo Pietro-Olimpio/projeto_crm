@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+// dados dos clientes
 $clientes = [
     [
         "nome" => "  ANA CLARA SILVA ",
@@ -42,14 +43,34 @@ function formatarMoeda(float $valor): string
 // formatar o nome
 function formatarNome(string $nome): string
 {
-    return ucfirst(strtolower(trim($nome)));
+    return ucwords(strtolower(trim($nome)));
 }
 
 
 // limpa cpf
 function limparCPF(string $cpf): string
 {
-    return str_replace(['.', '-'], '', $cpf);
+    return str_replace(['.', '-', ' '], '', trim($cpf));
+}
+
+
+// formatar cpf
+function formatarCPF(string $cpf): string
+{
+    $cpf = limparCPF($cpf);
+
+    if (strlen($cpf) === 11) {
+
+        return substr($cpf, 0, 3) . "." .
+               substr($cpf, 3, 3) . "." .
+               substr($cpf, 6, 3) . "-" .
+               substr($cpf, 9, 2);
+
+    } else {
+
+        return $cpf;
+
+    }
 }
 
 
@@ -58,18 +79,70 @@ function cpfValido(string $cpf): bool
 {
     $cpf = limparCPF($cpf);
 
-    return strlen($cpf) === 11 && is_numeric($cpf);
+    if (strlen($cpf) === 11 && is_numeric($cpf)) {
+
+        return true;
+
+    } elseif (strlen($cpf) === 0) {
+
+        return false;
+
+    } else {
+
+        return false;
+
+    }
 }
+
 
 // validar email
 function validarEmail(string $email): bool
 {
-    return str_contains($email, "@");
+    return filter_var(trim($email), FILTER_VALIDATE_EMAIL) !== false;
 }
 
-// buscar cliente
-$opcap = readline("Busque pelo cliente pelo seu nome: ");
 
+// validar nome
+function validarNome(string $nome): bool
+{
+    $nome = trim($nome);
+
+    if ($nome === "") {
+
+        return false;
+
+    } elseif (strlen($nome) < 3) {
+
+        return false;
+
+    } else {
+
+        return true;
+
+    }
+}
+
+
+// validar contrato
+function validarContrato(float $valor): bool
+{
+    if ($valor > 0) {
+
+        return true;
+
+    } elseif ($valor === 0.0) {
+
+        return false;
+
+    } else {
+
+        return false;
+
+    }
+}
+
+
+// buscar cliente
 function buscarCliente(array $clientes, string $opcap): ?array
 {
     $nomeBusca = strtolower(trim($opcap));
@@ -80,55 +153,61 @@ function buscarCliente(array $clientes, string $opcap): ?array
 
         if ($nomeCliente === $nomeBusca) {
 
-            echo "\nCliente encontrado\n";
-            echo "Nome: " . formatarNome($cliente["nome"]) . "\n";
-            echo "CPF: " . $cliente["cpf"] . "\n";
-            echo "Email: " . $cliente["email"] . "\n";
-            echo "Contrato: " . formatarMoeda($cliente["contrato"]) . "\n";
-
-            if ($cliente["ativo"]) {
-                echo "Situação: Ativo\n";
-            } else {
-                echo "Situação: Inativo\n";
-            }
-
             return $cliente;
+
         }
     }
-
-    echo "\nencontrei nada não, digita certo burro\n";
 
     return null;
 }
 
+
 //calcular contratos
 function calcularTotalContratosAtivos(array $clientes): float
 {
-    $total = 0;
+    $total = 0.0;
 
     foreach ($clientes as $cliente) {
+
         if ($cliente["ativo"] === true) {
+
             $total = $total + $cliente["contrato"];
+
         }
     }
 
     return $total;
 }
 
-$totalAtivos = calcularTotalContratosAtivos($clientes);
 
-echo "Valor total dos contratos ativos: " . formatarMoeda($totalAtivos) . "\n";
+// calcular média dos contratos
+function calcularMediaContratos(array $clientes): float
+{
+    if (count($clientes) === 0) {
+
+        return 0.0;
+
+    }
+
+    $total = 0.0;
+
+    foreach ($clientes as $cliente) {
+
+        $total = $total + $cliente["contrato"];
+
+    }
+
+    return $total / count($clientes);
+}
+
 
 // reajuste
 function aplicarReajuste(float &$contrato, float $percentual): void
 {
     $reajuste = $contrato * ($percentual / 100);
+
     $contrato = $contrato + $reajuste;
 }
-
-aplicarReajuste($clientes[0]["contrato"], 10);
-
-echo "Contrato reajustado: " . formatarMoeda($clientes[0]["contrato"]) . "\n";
 
 
 //contar clientes
@@ -138,12 +217,39 @@ function contarClientesAtivos(array $clientes): int
     $total = 0;
 
     foreach ($clientes as $cliente) {
+
         if ($cliente["ativo"] === true) {
+
             $total++;
+
         }
     }
 
     return $total;
+}
+
+
+// maior contrato
+function maiorContrato(array $clientes): float
+{
+    if (count($clientes) === 0) {
+
+        return 0.0;
+
+    }
+
+    $maior = 0.0;
+
+    foreach ($clientes as $cliente) {
+
+        if ((float) $cliente["contrato"] > $maior) {
+
+            $maior = (float) $cliente["contrato"];
+
+        }
+    }
+
+    return $maior;
 }
 
 ?>
