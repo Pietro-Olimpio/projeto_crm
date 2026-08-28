@@ -1,6 +1,7 @@
-<?php declare(strict_types=1); 
+<?php
+declare(strict_types=1);
 
-//array
+// Array
 $clientes = [
     [
         "nome" => "  ANA CLARA SILVA ",
@@ -32,30 +33,23 @@ $clientes = [
     ]
 ];
 
-//funções
+// Funções
 
-// formatar moeda
 function formatarMoeda(float $valor): string
 {
     return "R$ " . number_format($valor, 2, ',', '.');
 }
 
-
-// formatar o nome
 function formatarNome(string $nome): string
 {
     return ucfirst(strtolower(trim($nome)));
 }
 
-
-// limpa cpf
 function limparCPF(string $cpf): string
 {
     return str_replace(['.', '-'], '', $cpf);
 }
 
-
-// validar cpf
 function cpfValido(string $cpf): bool
 {
     $cpf = limparCPF($cpf);
@@ -63,43 +57,10 @@ function cpfValido(string $cpf): bool
     return strlen($cpf) === 11 && is_numeric($cpf);
 }
 
-// validar email
 function validarEmail(string $email): bool
 {
     return str_contains($email, "@");
 }
-
-
-
-// lista cliente
-foreach ($clientes as $cliente) {
-
-    echo "Nome: " . formatarNome($cliente["nome"]) . "\n";
-    
-    if (cpfValido($cliente["cpf"])) {
-        echo "CPF: válido\n";
-    } else {
-        echo "CPF: inválido\n";
-    }
-
-   
-
-    if (validarEmail($cliente["email"])) {
-        echo "email: valido\n";
-    } else {
-        echo "email: invalido\n";
-    }
-
-    if ($cliente["ativo"]) {
-        echo "Situação: Ativo\n";
-    } else {
-        echo "Situação: Inativo\n";
-    }
-}
-
-
-// Busca por nome
-$opcap = readline("Busque pelo cliente pelo seu nome: ");
 
 function buscarCliente(array $clientes, string $opcap): ?array
 {
@@ -111,10 +72,21 @@ function buscarCliente(array $clientes, string $opcap): ?array
 
         if ($nomeCliente === $nomeBusca) {
 
-            echo "\nCliente encontrado\n";
+            echo "\nCliente encontrado!\n";
             echo "Nome: " . formatarNome($cliente["nome"]) . "\n";
-            echo "CPF: " . $cliente["cpf"] . "\n";
-            echo "Email: " . $cliente["email"] . "\n";
+
+            if (cpfValido($cliente["cpf"])) {
+                echo "CPF: válido\n";
+            } else {
+                echo "CPF: inválido\n";
+            }
+
+            if (validarEmail($cliente["email"])) {
+                echo "E-mail: válido\n";
+            } else {
+                echo "E-mail: inválido\n";
+            }
+
             echo "Contrato: " . formatarMoeda($cliente["contrato"]) . "\n";
 
             if ($cliente["ativo"]) {
@@ -127,9 +99,16 @@ function buscarCliente(array $clientes, string $opcap): ?array
         }
     }
 
-    echo "\nencontrei nada não, digita certo burro\n";
+    echo "\nCliente não encontrado.\n";
 
     return null;
 }
+
+
+// Primeiro pergunta o nome
+$opcap = readline("Digite o nome do cliente que deseja buscar: ");
+
+// Depois procura e mostra os dados
+buscarCliente($clientes, $opcap);
 
 ?>
