@@ -81,6 +81,7 @@ Neste teste, verificamos a funcionalidade de **busca por nome de um cliente exis
 ![alt text](image-5.png)
 
 Neste teste, realizamos o **cadastro de um novo cliente utilizando dados válidos**. Informamos o nome **Ana Clara Silva**, o CPF **123.456.789-00**, o e-mail **[ana.clara@email.com](mailto:ana.clara@email.com)**, o valor do contrato de **R$ 1.500,00** e definimos o cliente como ativo. Após o preenchimento, o sistema realizou as validações dos dados e, como as informações estavam de acordo com os critérios estabelecidos, o cadastro foi concluído com sucesso, apresentando a mensagem **“Cliente adicionado com sucesso!”**.
+
 ---
 ### Teste 4: Limpeza de dados
 Para realizar a limpeza e a padronização dos nomes, utilizamos a combinação das funções |`trim(), strtolower() e ucfirst()`. O `trim()` remove espaços desnecessários no início e no final do nome, o `strtolower()` transforma todas as letras em minúsculas e o `ucfirst()` deixa a primeira letra do texto em maiúscula. Dessa forma, conseguimos padronizar os nomes antes de apresentá-los no sistema.
