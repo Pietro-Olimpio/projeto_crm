@@ -69,11 +69,13 @@ Documento que apresenta o projeto, sua estrutura, funcionamento, requisitos, tes
 ![alt text](image-4.png)
 
 Neste teste, verificamos a **listagem dos clientes cadastrados** no sistema. Utilizamos o `foreach` para percorrer o array e apresentar, um por um, os dados dos quatro clientes. Também verificamos a formatação dos nomes, a validação dos CPFs e e-mails, a apresentação dos valores dos contratos em moeda brasileira e a situação de cada cliente, identificando quais estão ativos e quais estão inativos. Com esse teste, confirmamos que o sistema conseguiu percorrer e exibir corretamente todos os registros cadastrados.
+
 ---
 ### Teste 2: Busca por Nome
 ![alt text](image-3.png)
 
 Neste teste, verificamos a funcionalidade de **busca por nome de um cliente existente**. Informamos o nome **Ana Clara Silva** e o sistema conseguiu localizar corretamente o cadastro correspondente. Após encontrar o cliente, conseguimos visualizar seus dados, como o nome formatado, a validação do CPF e do e-mail, o valor do contrato apresentado como **R$ 1.500,00** e sua situação como **Ativo**. Com isso, confirmamos que a função de busca e a exibição das informações do cliente estavam funcionando corretamente.
+
 ---
 ### Teste 3: Cadastro de Cliente
 ![alt text](image-5.png)
