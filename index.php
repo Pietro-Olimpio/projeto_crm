@@ -1428,7 +1428,7 @@ $maiorContratoCadastrado = maiorContrato(
 
         mostrarSecao("cadastro");
 
-alguém determinars at necessarily
+
     </script>
 
 
